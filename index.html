@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <title>Frontend Mentor | Advice generator app</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@800&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: 'Manrope', sans-serif;
+    }
+
+    .container-outer {
+      background-color: hsl(217, 19%, 38%);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container-inner {
+      background-color: hsl(217, 19%, 24%);
+      box-shadow: 0px 0px 50px hsl(217, 19%, 24%);
+      height: 300px;
+      width: 550px;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #advice-id {
+      color: hsl(150, 100%, 66%);
+      box-sizing: border-box;
+      display: flex;
+      align-items: start;
+      justify-content: center;
+      margin: 20px;
+    }
+
+    #advice {
+      color: hsl(193, 38%, 86%);
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      margin: auto;
+      text-align: center;
+      font-size: 1.5rem;
+      width: 500px;
+    }
+
+    #divider-area {
+      display: flex;
+      justify-content: center;
+      margin: 50px auto;
+    }
+
+    #button-area {
+      display: flex;
+      justify-content: center;
+      margin-left: 250px;
+      margin-top: 270px;
+      background-color: hsl(150, 100%, 66%);
+      padding: 15px;
+      border-radius: 30px;
+      position: fixed;
+    }
+
+    button {
+      border: none;
+      background-color: inherit;
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+  </style>
+</head>
+<body onload="getQuote()">
+<div class="container-outer">
+  <div class="container-inner">
+    <p id="advice-id">advice #2</p>
+    <p id="advice">advice</p>
+      <img id="divider-area" src="images/pattern-divider-desktop.svg" alt="divider">
+      <button id="button-area" onclick="newQuote()">
+      <img src="images/icon-dice.svg" alt="dice-icon">
+    </button>
+  </div>
+</div>
+
+<script>
+let adviceID = document.getElementById("advice-id")
+let advice = document.getElementById("advice")
+
+function getQuote() {
+const url = 'https://api.adviceslip.com/advice'
+
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    adviceID.innerHTML = `Advice #${data.slip.id}`
+    advice.innerHTML = `"${data.slip.advice}"`
+    console.log(data)
+    console.log(data.advice)
+  })
+}
+
+
+function newQuote() {
+  let id = Math.floor(Math.random() * 224)
+  
+  fetch(`https://api.adviceslip.com/advice/${id}`)
+    .then(response => response.json())
+    .then(data => {
+      adviceID.innerHTML = `Advice #${data.slip.id}`
+      advice.innerHTML = `"${data.slip.advice}"`
+    }) 
+}
+
+</script>
+</body>
+</html>
